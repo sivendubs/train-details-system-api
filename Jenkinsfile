@@ -36,7 +36,7 @@ pipeline {
             	}    
       } 
 	   
-      stage('Build image') {
+    /*  stage('Build image') {
       		steps {
         		script {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
