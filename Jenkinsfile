@@ -13,7 +13,7 @@ pipeline {
                     		script {
 		    			LAST_STARTED = env.STAGE_NAME
                     			timeout(time: 1, unit: 'HOURS') { 
-                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=train-details-system-api > status.json"
+                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:train-details-system-api > status.json"
                         			def json = readJSON file:'status.json'
                         			echo "${json.projectStatus}"
                         			if ("${json.projectStatus.status}" != "OK") {
