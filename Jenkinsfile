@@ -36,7 +36,7 @@ pipeline {
             	}    
       } 
 	   
-    /*  stage('Build image') {
+      stage('Build image') {
       		steps {
         		script {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
@@ -56,7 +56,7 @@ pipeline {
 				sh 'sleep 60'
        			}
 		}
-     }*/
+     }
    	
      stage ('Munit Test'){
         	steps {
@@ -119,7 +119,7 @@ pipeline {
                         }
 		}
     }   
-    
+    */
     stage('Kill container') {
       		steps {
         		script {
@@ -127,7 +127,7 @@ pipeline {
           		    	sh 'docker rm -f train-details-system-api'
         		}
       		}
-    	}*/
+    	}
    }
  /*  post {
         failure {
