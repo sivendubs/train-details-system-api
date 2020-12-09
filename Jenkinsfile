@@ -36,7 +36,7 @@ pipeline {
             	}    
       } 
 	   
-     stage('Build image') {
+    /*  stage('Build image') {
       		steps {
         		script {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
@@ -56,14 +56,14 @@ pipeline {
 				sh 'sleep 60'
        			}
 		}
-     
+     }*/
    	
      stage ('Munit Test'){
         	steps {
 			script {
 			   	LAST_STARTED = env.STAGE_NAME
 			   //	sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
-         sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 test"
+         sh "mvn -f train-details-system-api/pom.xml test"
 			}		
         	}    
      }
@@ -119,7 +119,7 @@ pipeline {
                         }
 		}
     }   
-    */
+    
     stage('Kill container') {
       		steps {
         		script {
@@ -127,6 +127,16 @@ pipeline {
           		    	sh 'docker rm -f train-details-system-api'
         		}
       		}
-    	}
+    	}*/
    }
- }
+ /*  post {
+        failure {
+	    script {
+	    		emailbody = "Build Failed at $LAST_STARTED Stage. Please find the attached logs for more details."
+          		readProps= readProperties file: 'cucumber-API-Framework/email.properties'
+				emailext(subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', body: "$emailbody", attachLog: true, from: "${readProps['email.from']}", to: "${readProps['email.to']}")
+                    }
+            
+        }
+    }*/
+}
