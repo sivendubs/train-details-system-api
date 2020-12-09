@@ -52,7 +52,7 @@ pipeline {
       		steps {
         		script {
 			     	LAST_STARTED = env.STAGE_NAME
-          		    	sh ' /Applications/Docker.app/Contents/Resources/bin/docker run -itd -p 8084:8081 --name train-details-system-api train-details-system-api:mule'
+          		    	sh ' /Applications/Docker.app/Contents/Resources/bin/docker run -itd -p 8081:8081 --name train-details-system-api train-details-system-api:mule'
 				sh 'sleep 60'
        			}
 		}
