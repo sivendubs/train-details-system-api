@@ -129,14 +129,4 @@ pipeline {
       		}
     	}
    }
- /*  post {
-        failure {
-	    script {
-	    		emailbody = "Build Failed at $LAST_STARTED Stage. Please find the attached logs for more details."
-          		readProps= readProperties file: 'cucumber-API-Framework/email.properties'
-				emailext(subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', body: "$emailbody", attachLog: true, from: "${readProps['email.from']}", to: "${readProps['email.to']}")
-                    }
-            
-        }
-    }*/
-}
+   }
