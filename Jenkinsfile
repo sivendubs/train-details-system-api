@@ -119,7 +119,7 @@ pipeline {
                         }
 		}
     }   
-    
+    */
     stage('Kill container') {
       		steps {
         		script {
@@ -127,7 +127,7 @@ pipeline {
           		    	sh 'docker rm -f train-details-system-api'
         		}
       		}
-    	}*/
+    	}
    }
  /*  post {
         failure {
