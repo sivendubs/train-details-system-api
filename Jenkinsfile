@@ -58,7 +58,7 @@ pipeline {
 				sh 'sleep 60'
        			}
 		}
-     }
+     }*/
    	
      stage ('Munit Test'){
         	steps {
@@ -69,7 +69,7 @@ pipeline {
 			}		
         	}    
      }
-     stage('Functional Testing'){
+ /*    stage('Functional Testing'){
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
