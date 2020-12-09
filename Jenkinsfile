@@ -81,14 +81,15 @@ pipeline {
 	/*  stage ('Jmeter Testing'){
 	    steps{
 		    sh "mvn -f apipos-jmeter-automation-master/pom.xml clean verify -Djmeter.path=/opt/jmeter/5.3/libexec/bin/"
-		    perfReport filterRegex: '', sourceDataFiles: '**/*.jtl'
-		    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: '**/index.html', reportName: 'HTML Report', reportTitles: ''])
+		    perfReport filterRegex: '', sourceDataFiles: '**/
+	   //*.jtl'
+	//	   publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: '**/index.html', reportName: 'HTML Report', reportTitles: ''])
 	
-	    	   }
-	    }
+	 //   	   }
+	//    }
 	   
 	   
-    stage('Archetype'){
+  /*  stage('Archetype'){
         	steps {
 			script {
 		    		LAST_STARTED = env.STAGE_NAME
