@@ -120,14 +120,14 @@ pipeline {
 		}
     }   
     */
-    stage('Kill container') {
+   /* stage('Kill container') {
       		steps {
         		script {
 	  	        	LAST_STARTED = env.STAGE_NAME		
           		    	sh '/Applications/Docker.app/Contents/Resources/bin/docker rm -f train-details-system-api'
         		}
       		}
-    	}
+    	}*/
    }
  /*  post {
         failure {
