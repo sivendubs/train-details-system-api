@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="traindetails-system-api-test-suite.xml" />
+	<munit:test name="traindetails-system-api-test-api-bad-request" doc:id="162f02ab-34fc-4185-9052-482ab281dfe8" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2e9f2c20-6db4-47ab-a8e2-72d12272d90e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="9543157b-0839-4c4d-ab66-e4bbd4ba99bb" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="f450cbe6-7507-4598-8ddf-b197a8313838" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f2626021-0e1f-4c85-b85d-aee1ced5055a" >
+						<logger level="INFO" doc:name="error" doc:id="190b638b-7150-41d6-ba64-17d3ea07ab41" message="Error Occured"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="033d7845-583f-4856-9189-c1604614094b" actual="#[payload.message]" expected="Bad request" message="Invalid Payload" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="traindetails-system-api-test-api-not-found" doc:id="619990c6-b8eb-4f50-bcb2-fc4ecdd3a0cf" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7500df20-2881-4019-87d6-1ffd6e428a81" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="1e2b8a14-1404-4afd-983f-0b676ab16724" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="61df0baa-2913-4e58-ac24-6ecc26fc8224" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2f965e6e-294e-41ef-8d0e-1c53a02bc6b5" >
+						<logger level="INFO" doc:name="error" doc:id="cbb1f272-945b-493f-ae41-82ce798a0791" message="Error Occured" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="347833eb-f8b6-4579-9c0c-2b51aa7a579e" actual="#[payload.message]" expected="Resource not found" message="Invalid Payload" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="traindetails-system-api-test-api-method-not-allowed" doc:id="462842cb-7478-4104-9a7b-35be8f8e926b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ac97471f-9383-4cb9-b185-9bccd4c737e7" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="a8f80c0e-af5f-44ac-84f5-f87890722d74" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="12b64b17-74e4-4fad-bd9f-89edf0ff891f" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0cc324f7-e289-4916-8b51-47dc9e6a4950" >
+						<logger level="INFO" doc:name="error" doc:id="0f7d1f31-1a00-42cb-b153-647eb56980f5" message="Error Occured" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="7e046010-eac0-4802-9ae0-3b965d56f9ac" actual="#[payload.message]" expected="Method not allowed" message="Invalid Payload" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="traindetails-system-api-test-not-acceptable" doc:id="733ceb0b-34e1-42e6-9636-1214077f6b66" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7349a6c7-0e4e-4464-8cf0-7c5d56a2cfbc" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="1b571cbd-fc32-4eb4-acba-1b68dccfd4af" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="f5caf36e-7009-4583-8040-ddb5890b45bb" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="894b7ad1-eced-4d2e-a7a8-208135c38f5c" >
+						<logger level="INFO" doc:name="error" doc:id="72e6599c-dfd0-415c-bfbf-a06da6edd68f" message="Error Occured" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="57e1d9ec-7cb9-49bc-838f-b92b08ea972d" actual="#[payload.message]" expected="Not acceptable" message="Invalid Payload" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="traindetails-system-api-test-unsupported-media-type" doc:id="bf067bff-9360-49e5-8c7c-9e05e8192262" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5b77dfdd-4eb4-46e2-849a-9157067d7ad7" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="529ae3fe-c0fa-440e-a5b2-7c1edd351fbd" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="295e7c54-4695-4787-a70d-46e8b5618882" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1e12dce0-aec8-4ff4-b24c-fafa778ca7b8" >
+						<logger level="INFO" doc:name="error" doc:id="a0e0c2bd-622b-4c8d-bcaa-57edc5f47f5c" message="Error Occured" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="5cb84a23-82f8-4980-b142-d13ff77a9f3a" actual="#[payload.message]" expected="Unsupported media type" message="Invalid Payload" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="traindetails-system-api-test-not-implemented" doc:id="08cef126-3b96-44be-914e-8a2826bb78e1" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4bfd8bb4-36c0-4946-92db-c2166bce1232" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="trainDetailsSystemApiConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="a1090fe8-197d-4f8d-b945-826883df013b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="eb653907-c752-45df-8f3a-53c7b3e796c9" >
+				<flow-ref doc:name="Flow-ref to traindetails-system-api-main" doc:id="f0d618b9-351c-4052-8932-36bbf13b3ce7" name="traindetails-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0c30e7ce-2d3d-4b83-b780-8088bfc924e8" >
+						<logger level="INFO" doc:name="error" doc:id="a017e0dd-06c7-4f62-8a3c-177678f1c81a" message="Error Occured" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="50e1d1e6-b525-461c-a847-13932cd2baf4" actual="#[payload.message]" expected="Not Implemented" message="Invalid Payload"/>
+		</munit:validation>
+	</munit:test>
+
+</mule>

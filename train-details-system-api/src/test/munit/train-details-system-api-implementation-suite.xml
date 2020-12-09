@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="train-details-system-api-implementation-suite.xml" />
+	<munit:test name="retrieve-train-details-flow-test" doc:id="9c0b70f5-26a1-419c-9333-fd7e8825f150" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock requestTrainDetails" doc:id="3f978d13-d433-438a-8fce-acfa928ce0fc" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8cb17b8e-046e-466f-9d2d-5762dc0b95c3" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://retrievetraindetailsflowtest/mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://retrievetraindetailsflowtest/mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://retrievetraindetailsflowtest/mock_variable_.dwl')]" />
+						<munit-tools:variable key="origin" value="#[output application/java --- readUrl('classpath://retrievetraindetailsflowtest/mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="destination" value="#[output application/java --- readUrl('classpath://retrievetraindetailsflowtest/mock_variable_2.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="0b4ee8c7-2b7d-4d79-b5cd-bad2150d2ceb" >
+				<munit:payload value="#[readUrl('classpath://retrievetraindetailsflowtest/set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://retrievetraindetailsflowtest/set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://retrievetraindetailsflowtest/set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to retrieve-train-details-flow" doc:id="e6e7bb9f-126d-4742-b970-539a46ed969a" name="retrieve-train-details-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="8844d93b-89db-4626-b544-d0eea5c36ed7" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import retrievetraindetailsflowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+</mule>

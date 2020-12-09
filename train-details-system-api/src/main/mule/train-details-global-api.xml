@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<http:listener-config name="httpListnerConfig" doc:name="HTTP Listener config" doc:id="84c1465c-c57b-48e9-8ec9-1089aa29fc0d" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<http:request-config name="httpRequestConfiguration" doc:name="HTTP Request configuration" doc:id="be043e09-21a6-43f4-9329-02b37552e8b5" >
+		<http:request-connection host="${mock.host}"/>
+	</http:request-config>
+	 <apikit:config name="trainDetailsSystemApiConfig" api="resource::cd5bf5d6-a7c5-40f7-a8db-9f1046bbc2fd:traindetails-system-api:1.0.2:raml:zip:traindetails-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<configuration-properties doc:name="Configuration properties" doc:id="0cf6ca13-753f-4143-b4d4-269a1d2b3d6e" file="config/train.details.system.api.${env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="450e2287-01bf-4f32-a458-b377f29c89df" name="env" value="dev"/>
+	<configuration doc:name="Configuration" doc:id="9a2c15b4-9c80-41c1-9e23-d11c2fd30738" defaultErrorHandler-ref="train-details-global-error-handler" />
+	<json-logger:config name="jsonLoggerConfig" doc:name="JSON Logger Config" doc:id="c84dbf64-75bf-47b2-970c-95dc46faa7d7" environment="${env}" />
+	<error-handler name="train-details-global-error-handler" doc:id="f181e829-d41d-4243-8c6c-8fbb3354d27f" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0797feda-bc15-47ca-b771-5dba55d8dfc1" type="HTTP:BAD_REQUEST">
+			<set-payload value='#["HTTP:BAD REQUEST - " ++ error.description as String]' doc:name="errorMessage" doc:id="90968771-871b-4427-91d6-554582f60c22" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eba54cb4-39c3-45e5-a23d-31dc6a471c9a" type="HTTP:CONNECTIVITY">
+			<set-payload value='#["HTTP:CONNECTIVITY - " ++ error.description as String]' doc:name="errorMessage" doc:id="8a4de1af-13ba-407a-8deb-9294f97d0dc0" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e003a3b9-ee42-4439-bb23-8a09b67a249d" >
+			<set-payload value='#["Error - " ++ error.description as String]' doc:name="errorMessage" doc:id="dcc07d43-e765-475a-89f1-6bd63105309c" />
+		</on-error-propagate>
+	</error-handler>
+</mule>

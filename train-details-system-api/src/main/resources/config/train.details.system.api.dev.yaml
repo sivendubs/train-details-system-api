@@ -1,0 +1,21 @@
+http:
+  port: '8085'
+
+train:
+  host: 'transportapi.com'
+  path: 'api/v3/uk/public/journey'
+  appId: '9f16e1d3'
+  appKey: 'be89c73e1563785527558d241049d118'
+  modes: 'train'
+  service: 'tfl'
+  
+mock:
+  host: 'backend-mock-ext-api.us-e2.cloudhub.io' 
+  origin: 'London'
+  destination: 'Paddington'
+  
+json:
+  logger:
+    application:
+      name: "train-details-system-api"
+      version: "1.0.0-SNAPSHOT"  

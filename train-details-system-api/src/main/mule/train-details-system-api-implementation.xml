@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<flow name="retrieve-train-details-flow" doc:id="59641e5e-e155-4b54-8323-77ff8f6abb39" >
+		<json-logger:logger doc:name="flowBegin" doc:id="9771bb3c-34d0-43f3-9ee5-2ae5b8e49dec" config-ref="jsonLoggerConfig" message="Payload in the beginning of the flow"/>
+		<flow-ref doc:name="set-locations-flow" doc:id="25428773-1e3a-499b-872c-08dbbfd4192e" name="set-locations-flow"/>
+		<ee:transform doc:name="queryParams" doc:id="b89f31e3-5637-45e2-9c4f-2c2305e1328e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	origin: vars.origin,
+	destination: vars.destination as String,
+	date: attributes.queryParams.travelDate,
+	time: now() as String {format: "hh:mm"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="GET" doc:name="requestTrainDetails" doc:id="8cb17b8e-046e-466f-9d2d-5762dc0b95c3" config-ref="httpRequestConfiguration" path="${train.path}">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"date" : payload.date,
+	"service" : p('train.service'),
+	"fromStation" : attributes.queryParams.origin as String,
+	"toStation" : attributes.queryParams.destination as String,
+	"modes" : p('train.modes'),
+	"time" : payload.time,
+	"app_id" : p('train.appId'),
+	"app_key" : p('train.appKey')
+}]]]></http:query-params>
+		</http:request>
+		<json-logger:logger doc:name="afterReuest" doc:id="63ef7689-ae63-4d35-a522-19657e548542" config-ref="jsonLoggerConfig" message="Payload after calling Mocking service"/>
+		<ee:transform doc:name="Transform Message" doc:id="eb7c7993-9165-41b8-8b48-892b4ccbf70c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.routes map (object) ->{
+	trains: object.route_parts filter ($.mode == "train") map (item)->{
+		trainNumber: "O" ++ (item.arrival_time as Time as String {format: "HHmm"}),
+		origin: vars.origin,
+		destination: vars.destination,
+		eta: item.arrival_time,
+		etd:item.departure_time,
+		duration: ( ((item.duration splitBy ":")[0] * 60) + (item.duration splitBy ":")[1] ) as String
+}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="813ab11c-e3c3-4d19-aea6-eed6915f44d3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload.trains)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="flowEnd" doc:id="f0f1856c-9e6c-470c-b65c-e5a74957dd3b" config-ref="jsonLoggerConfig" message="Payload at the end of the flow"/>
+	</flow>
+	<flow name="set-locations-flow" doc:id="11bfed9c-65b7-4545-877c-dea4f317791a" >
+		<set-variable value="#[message.attributes.queryParams.origin]" doc:name="origin" doc:id="c0f5159c-310e-41ec-b66d-ab7e39e44002" variableName="origin"/>
+		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="8aba2a5e-bdeb-4863-be3c-e757ab5e2d7e" variableName="destination"/>
+	</flow>
+</mule>
