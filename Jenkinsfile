@@ -63,9 +63,11 @@ pipeline {
      stage ('Munit Test'){
         	steps {
 			script {
+				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 			   	LAST_STARTED = env.STAGE_NAME
-			   //	sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
-         sh "mvn -f train-details-system-api/pom.xml test"
+			   	sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 -s $settings -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
+         			//sh "mvn -f train-details-system-api/pom.xml test"
+				}
 			}		
         	}    
      }
