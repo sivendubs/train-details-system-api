@@ -42,7 +42,7 @@ pipeline {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
         		//   	sh "docker rm apiops-anypoint-jenkins-sapi"
 			   	LAST_STARTED = env.STAGE_NAME
-			   	sh "docker build -t train-details-system-api:mule -f Dockerfile ."
+			   	sh "/Applications/Docker.app/Contents/Resources/bin/docker build -t train-details-system-api:mule -f Dockerfile ."
                 	 
                         }
                }
@@ -52,7 +52,7 @@ pipeline {
       		steps {
         		script {
 			     	LAST_STARTED = env.STAGE_NAME
-          		    	sh ' docker run -itd -p 8082:8081 --name train-details-system-api train-details-system-api:mule'
+          		    	sh ' /Applications/Docker.app/Contents/Resources/bin/docker run -itd -p 8082:8081 --name train-details-system-api train-details-system-api:mule'
 				sh 'sleep 60'
        			}
 		}
@@ -124,7 +124,7 @@ pipeline {
       		steps {
         		script {
 	  	        	LAST_STARTED = env.STAGE_NAME		
-          		    	sh 'docker rm -f train-details-system-api'
+          		    	sh '/Applications/Docker.app/Contents/Resources/bin/docker rm -f train-details-system-api'
         		}
       		}
     	}
