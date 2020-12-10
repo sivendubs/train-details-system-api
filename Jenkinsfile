@@ -72,7 +72,7 @@ pipeline {
 			}		
         	}    
      }
- /*    stage('Functional Testing'){
+     stage('Functional Testing'){
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
