@@ -104,18 +104,18 @@ pipeline {
                   		} 
 			}
               }   
-     }
+     }*/
 	   
     stage('Deploy to Cloudhub'){
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
-				sh 'mvn -f train-details-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=joji6 -Danypoint.password=Canadavisa25@ -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
+				sh 'mvn -f train-details-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=sivendu05 -Danypoint.password=Mulesoft903 -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
 			}
              	}
     }
 	   
-    stage('Email') {
+   /* stage('Email') {
       		steps {
 			script {
           		    	readProps= readProperties file: 'cucumber-API-Framework/email.properties'
