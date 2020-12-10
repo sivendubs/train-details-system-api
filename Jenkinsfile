@@ -111,7 +111,7 @@ pipeline {
 			script {
 				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 				LAST_STARTED = env.STAGE_NAME
-				sh 'mvn -f train-details-system-api/pom.xml package deploy -s $settings -DmuleDeploy -DskipTests -Danypoint.username=sivendu05 -Danypoint.password=Mulesoft903 -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
+				sh 'mvn -f train-details-system-api/pom.xml package deploy -s $settings -DmuleDeploy -DskipTests -Dusername=sivendu05 -Dpassword=Mulesoft903 -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2 -Denvironment=Sandbox'
 			       }
 			}	
              	}
