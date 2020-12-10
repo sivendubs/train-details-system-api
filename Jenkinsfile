@@ -38,13 +38,13 @@ pipeline {
             	}    
       } 
 	   
-    / stage('Build image') {
+     stage('Build image') {
       		steps {
         		script {
-			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
-        		//   	sh "docker rm apiops-anypoint-jenkins-sapi"
+			      //    sh "docker stop train-details-system-api" 
+        		     //   	sh "docker rm train-details-system-api"
 			   	LAST_STARTED = env.STAGE_NAME
-			  // 	sh "/Applications/Docker.app/Contents/Resources/bin/docker build -t train-details-system-api:mule -f Dockerfile ."
+			    // 	sh "/Applications/Docker.app/Contents/Resources/bin/docker build -t train-details-system-api:mule -f Dockerfile ."
 				"docker build -t train-details-system-api:mule -f Dockerfile ."
                 	 
                         }
