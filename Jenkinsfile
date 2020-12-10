@@ -38,13 +38,14 @@ pipeline {
             	}    
       } 
 	   
-    /*  stage('Build image') {
+    / stage('Build image') {
       		steps {
         		script {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
         		//   	sh "docker rm apiops-anypoint-jenkins-sapi"
 			   	LAST_STARTED = env.STAGE_NAME
-			   	sh "/Applications/Docker.app/Contents/Resources/bin/docker build -t train-details-system-api:mule -f Dockerfile ."
+			  // 	sh "/Applications/Docker.app/Contents/Resources/bin/docker build -t train-details-system-api:mule -f Dockerfile ."
+				"docker build -t train-details-system-api:mule -f Dockerfile ."
                 	 
                         }
                }
@@ -54,11 +55,11 @@ pipeline {
       		steps {
         		script {
 			     	LAST_STARTED = env.STAGE_NAME
-          		    	sh '/Applications/Docker.app/Contents/Resources/bin/docker run -itd -p 8082:8081 --name train-details-system-api train-details-system-api:mule'
+          		    	sh 'docker run -itd -p 8082:8081 --name train-details-system-api train-details-system-api:mule'
 				sh 'sleep 60'
        			}
 		}
-     }*/
+     }
    	
      stage ('Munit Test'){
         	steps {
@@ -124,14 +125,14 @@ pipeline {
 		}
     }   
     */
-   /* stage('Kill container') {
+   stage('Kill container') {
       		steps {
         		script {
 	  	        	LAST_STARTED = env.STAGE_NAME		
-          		    	sh '/Applications/Docker.app/Contents/Resources/bin/docker rm -f train-details-system-api'
+          		    	sh 'docker rm -f train-details-system-api'
         		}
       		}
-    	}*/
+    	}
    }
  /*  post {
         failure {
